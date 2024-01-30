@@ -4,16 +4,26 @@ document.getElementById("CalculateGPAButton").addEventListener("click", calculat
 let summedCreditsOnPage = document.getElementById("CreditSum")
 let semesterGPAOnPage = document.getElementById("SemesterGPA")
 let combinedGPAOnPage = document.getElementById("CombinedGPA")
+let pointsEarnedOnPage = document.getElementById("PointsSum");
+let classRows = document.getElementsByClassName("ClassRow");
 //Object for a student's classes
-let studentGrades = {}
+let studentGrades = {
+  cumulativePriorCredits: 0,
+  cumulativePriorGPA: 0,
+  totalPoints: 0,
+  totalCreditsAttempted: 0,
+  semesterGPA: 0,
+  combinedGPA: 0,
+  classList: [],
+}
 
 //Button handler
 function calculateGPA() {
   console.log("Performing GPA calculation..")
-  resetStudentGrades()
-  getUserData()
-  doTheMath()
-  writeToPage()
+  resetStudentGrades() //Set all values to zero
+  getUserData()        //Get basic information from page
+  doTheMath()          //Crunch the numbers
+  writeToPage()        //Write out the information back to the page
 }
 
 function resetStudentGrades() {
@@ -31,7 +41,6 @@ function resetStudentGrades() {
 //Gets the information off of the user's page
 function getUserData() {
   //Get all the relevant html elements on the page
-  let classRows = document.getElementsByClassName("ClassRow");
   studentGrades.cumulativePriorCredits = parseFloat(document.getElementById("PriorCredits").value)
   studentGrades.cumulativePriorGPA = parseFloat(document.getElementById("PriorGPA").value)
   //NaN checks. Author: https://bobbyhadz.com/blog/javascript-convert-nan-to-zero
@@ -39,12 +48,13 @@ function getUserData() {
   studentGrades.cumulativePriorGPA = studentGrades.cumulativePriorGPA || 0;
   //If the prior gpa or credits fields are blank, ignore them
   for (var i = 0; i < classRows.length; i++) {
+    //Iterates over every row in the table, and gets every value.
     studentGrades.classList.push(new SingleClass(
-      classRows[i].children[1].children[0].value,
-      classRows[i].children[2].children[0].value,
-      classRows[i].children[3].children[0].value,
-      classRows[i].children[4].children[0].checked,
-      classRows[i].children[5].children[0].value,
+      classRows[i].children[1].children[0].value,   //Class name
+      classRows[i].children[2].children[0].value,   //Credit value
+      classRows[i].children[3].children[0].value,   //Grade earned
+      classRows[i].children[5].children[0].checked, //Repeat course checkbox
+      classRows[i].children[6].children[0].value,   //Prior grade earned
     ));
   }
 };
@@ -52,9 +62,11 @@ function getUserData() {
 //Calculates the GPA, storing the various information inside the studentGrades object
 function doTheMath() {
   for (var i = 0; i < studentGrades.classList.length; i++) {
+    // If the grade earned is pass/fail, doesn't effect GPA. Skip it.
     if (letterGradeToDouble(studentGrades.classList[i].grade) != -1) {
       //Add up all the points earned this semester (credit score * letter grade)
-      studentGrades.totalPoints += parseFloat(studentGrades.classList[i].credits) * (letterGradeToDouble(studentGrades.classList[i].grade))
+      var currentGradePoints = parseFloat(studentGrades.classList[i].credits) * (letterGradeToDouble(studentGrades.classList[i].grade))
+      studentGrades.totalPoints += currentGradePoints;
       //If a class is retaken, check to see if the new earned grade is higher
       if (studentGrades.classList[i].retaken && letterGradeToDouble(studentGrades.classList[i].grade) != -1) {
         if (letterGradeToDouble(studentGrades.classList[i].grade) >
@@ -71,9 +83,20 @@ function doTheMath() {
           studentGrades.cumulativePriorGPA = priorPointsEarned / //Check that the prior credits count is not zero
             (studentGrades.cumulativePriorCredits == 0 ? 1 : studentGrades.cumulativePriorCredits)
           console.log(priorPointsEarned)
+          //Write the GPA points earned to the page based on the NEW grade earned
+          classRows[i].children[4].innerText = (currentGradePoints - letterGradeToDouble(studentGrades.classList[i].previousGrade) * studentGrades.classList[i].credits).toFixed(2);
+        } else {
+          //Write the GPA points earned to the page based on the OLD grade earned (0.0?) //To ask
+          classRows[i].children[4].innerText = "0.00";
         }
+      } else {
+        //If the class isn't retaken, simply calculate the GPA points earned based on the NEW grade earned
+        classRows[i].children[4].innerText = currentGradePoints.toFixed(2);
       }
       studentGrades.totalCreditsAttempted += parseFloat(studentGrades.classList[i].credits)
+    } else {
+      //If the class is a pass/fail class, GPA points earned are zero. Set the earned to zero
+      classRows[i].children[4].innerText = "0.00";
     }
   }
   //Calculate the student's gpa for this semester (Total points / credits attempted)
@@ -90,6 +113,12 @@ function writeToPage() {
   semesterGPAOnPage.innerText = "GPA: " + studentGrades.semesterGPA.toFixed(3)
   summedCreditsOnPage.innerText = studentGrades.totalCreditsAttempted + " Credits"
   combinedGPAOnPage.innerText = studentGrades.combinedGPA.toFixed(3)
+  //Sum total points
+  var totalGPAPointsEarned = 0;
+  for (var i = 0; i < classRows.length; i++) {
+    totalGPAPointsEarned += parseFloat(classRows[i].children[4].innerText);
+  }
+  pointsEarnedOnPage.innerText = "Points: " + totalGPAPointsEarned.toFixed(2);
 }
 
 //Source of truth: https://uwosh.edu/advising/resources/gpa-calculator/
@@ -120,9 +149,9 @@ function letterGradeToDouble(grade) {
       return 0.67;
     case "F":
       return 0.0;
-    case "Incomplete":
+    case "Incomplete": //Not worth any credit
       return -1.0;
-    case "Pass/Complete":
+    case "Pass/Complete": //Not worth any credit
       return -1.0;
     case "AB":
       return 3.5;
