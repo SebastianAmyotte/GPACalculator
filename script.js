@@ -10,8 +10,9 @@ function addGPARow() {
   newRow.insertCell(1).innerHTML = `<input type="text" name="class" </td>`
   newRow.insertCell(2).innerHTML = creditsCellHTML()
   newRow.insertCell(3).innerHTML = gradeCellHTML()
-  newRow.insertCell(4).innerHTML = `<input type="checkbox">`
-  newRow.insertCell(5).innerHTML = gradeCellHTML(true)
+  newRow.insertCell(4).innerHTML = `12.00`
+  newRow.insertCell(5).innerHTML = `<input type="checkbox">`
+  newRow.insertCell(6).innerHTML = gradeCellHTML(true)
 }
 
 //Clears all the inputs
@@ -28,22 +29,24 @@ function clearForm() {
     //Add a blank row
     addGPARow();
     //Reset the gpa elements to zero
-    document.getElementById("CreditSum").innerText = ("0 Credits")
-    document.getElementById("SemesterGPA").innerText = ("GPA: 0.0")
-    document.getElementById("CombinedGPA").innerText = ("0.00")
+    document.getElementById("CreditSum").innerText = ("3 Credits")
+    document.getElementById("SemesterGPA").innerText = ("GPA: 4.000")
+    document.getElementById("CombinedGPA").innerText = ("4.000")
+    document.getElementById("PointsSum").innerText = ("Points: 12.00")
   }
 }
 
+//Removes the selected row from the table
 function removeGPARow(pushedButton) {
   //Makes sure there is at least 1 row containing inputs
   rowToRemove = pushedButton.parentNode.parentNode
   rowToRemove.parentNode.removeChild(rowToRemove);
-  calculateGPA();
   //Check if that was the last row
   if (table.rows.length == 2) {
     //if it was, add a blank row back in
     addGPARow()
   }
+  calculateGPA();
 }
 
 //Returns HTML for a credits dropdown
@@ -65,7 +68,7 @@ const gradeCellHTML = (retakenDropdown) => {
               <option value="A-">A-</option>
               <option value="B+">B+</option>
               <option value="B">B</option>
-              <option value="B-">C-</option>
+              <option value="B-">B-</option>
               <option value="C+">C+</option>
               <option value="C">C</option>
               <option value="C-">C-</option>
@@ -75,8 +78,9 @@ const gradeCellHTML = (retakenDropdown) => {
               <option value="F">F</option>
               <option value="Incomplete">Incomplete</option>
               <option value="Pass/Complete" ${retakenDropdown ? 'selected' : ''}>Pass/Complete</option>
-              ${retakenDropdown ? '<option value="AB">Incomplete</option>' : ''}
-              ${retakenDropdown ? '<option value="BC">Incomplete</option>' : ''}
-              ${retakenDropdown ? '<option value="CD">Incomplete</option>' : ''}
+              ${retakenDropdown ? '<option value="AB">AB</option>' : ''}
+              ${retakenDropdown ? '<option value="BC">BC</option>' : ''}
+              ${retakenDropdown ? '<option value="CD">CD</option>' : ''}
             </select>`
 }
+
