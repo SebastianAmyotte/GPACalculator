@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!--
+        Author: Sebastian Amyotte
+        Description: Final project for Web Development with Professor Rogers
+        Notes:
+        • Source of truth for UW Oshkosh GPA policies: https://uwosh.edu/advising/resources/gpa-calculator/
+    -->
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=1024">
+  <link rel="stylesheet" href="banner.css">
+  <link rel="stylesheet" href="table.css">
+  <script src="script.js" defer></script>
+  <script src="gpaCalculator.js" defer></script>
+  <title>GPA Calculator</title>
+</head>
+
+<body>
+  <header>
+    <img id="schoollogo" alt="UWO School logo" src="images/uwologo.svg">
+    <div id="title">
+      <p id="bigtitle">University of Wisconsin Oshkosh</p>
+      <p id="smalltitle">UW Oshkosh</p>
+      <p>GPA Calculator</p>
+    </div>
+  </header>
+  <main>
+    <h1 class="uwofont">GPA Calculator</h1>
+    <div id="calculator">
+      <table id="prior_classes">
+        <tr>
+          <td>Cumulative attempted credits:</td>
+          <td>Cumulative prior GPA:</td>
+        </tr>
+        <tr>
+          <td><input type="text" name="priorCredits" value="0" id="PriorCredits"></td>
+          <td><input type="text" name="priorGPA" placeholder="0.0 -> 4.0" value="0" id="PriorGPA"></td>
+        </tr>
+      </table>
+      <table id="current_classes">
+        <tr id="table_titles">
+          <td>🚮</td>
+          <td>Class:</td>
+          <td>Credits:</td>
+          <td>Grade:</td>
+          <td>Repeat Course:</td>
+          <td>Previous: </td>
+        </tr>
+        <tr class="ClassRow">
+          <td>
+            <input type="submit" value="Remove" onclick="removeGPARow(this)">
+          </td>
+          <td>
+            <input type="text" name="class" value=""></td>
+          <td>
+            <select name="credit">
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3" selected>3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+              <option value="0">Not for credit</option>
+            </select>
+          </td>
+          <td>
+            <select name="grade">
+              <option value="A">A</option>
+              <option value="A-">A-</option>
+              <option value="B+">B+</option>
+              <option value="B">B</option>
+              <option value="B-">B-</option>
+              <option value="C+">C+</option>
+              <option value="C">C</option>
+              <option value="C-">C-</option>
+              <option value="D+">D+</option>
+              <option value="D">D</option>
+              <option value="D-">D-</option>
+              <option value="F">F</option>
+              <option value="Incomplete">Incomplete</option>
+              <option value="Pass/Complete">Pass/Complete</option>
+            </select>
+          </td>
+          <td>
+            <input type="checkbox" name="item1" id="item1">
+          </td>
+          <td class="remove-check">
+            <!-- AB = 3.5 grade points, BC = 2.5 grade points, and CD = 1.5 grade points - Erik Heller-->
+            <select name="reetakegrade">
+              <option value="A">A</option>
+              <option value="A-">A-</option>
+              <option value="B+">B+</option>
+              <option value="B">B</option>
+              <option value="B-">B-</option>
+              <option value="C+">C+</option>
+              <option value="C">C</option>
+              <option value="C-">C-</option>
+              <option value="D+">D+</option>
+              <option value="D">D</option>
+              <option value="D-">D-</option>
+              <option value="F">F</option>
+              <option value="Incomplete">Incomplete</option>
+              <option value="Pass/Complete" selected>Pass/Complete</option>
+              <option value="AB">AB</option>
+              <option value="BC">BC</option>
+              <option value="CD">CD</option>
+            </select>
+          </td>
+        </tr>
+        <tr id="addrow">
+          <td><input type="submit" value="Add row" id="AddRowButton"></td>
+          <td>
+            <input type="submit" value="Clear form" id="ClearForm">
+          </td>
+          <td id="CreditSum">0 Credits</td>
+          <td id="SemesterGPA">GPA: 0.0</td>
+          <td>
+            <!-- Left intentionally blank -->
+          </td>
+          <td><input type="submit" value="Calculate" id="CalculateGPAButton"></td>
+        </tr>
+      </table>
+      <p id="totals">GPA with prior attempted credits and GPA: <em id="CombinedGPA">0.00</em></p>
+    </div>
+    
+  </main>
+  <footer>
+    This site is under development by UW-Oshkosh students as a prototype for UW-Oshkosh. Nothing on the site should be construed in any way as being connected
+with or representative of UW-Oshkosh   
+  </footer>
+</body>
+</html>

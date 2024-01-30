@@ -1,0 +1,51 @@
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+h1 {
+  font-size: 32pt;
+  margin-bottom: 0;
+}
+
+table {
+  border: 1px black solid;
+  border-spacing: 5px;
+}
+
+#prior_classes {
+  text-align: center;
+  font-size: 16pt;
+  width: 100%;
+  background-color: #d4d4d4;
+  border-radius: 5px 5px 0px 0px;
+}
+
+#current_classes {
+  border-radius: 0px 0px 5px 5px;
+}
+
+#current_classes td {
+  text-align: center;
+}
+
+#totals {
+  font-size: 22pt;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#totals > em {
+  font-weight: bold;
+}
+
+#totals > td {
+  align-self: center;
+}
+
+input[type=checkbox]:checked ~ td {
+  background-color:  red;
+}
