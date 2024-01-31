@@ -7,6 +7,7 @@ main {
 h1 {
   font-size: 32pt;
   margin-bottom: 0;
+  text-align: center;
 }
 
 table {
@@ -28,7 +29,9 @@ table {
 
 #current_classes td {
   text-align: center;
+  
 }
+
 
 #totals {
   font-size: 22pt;

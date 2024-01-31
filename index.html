@@ -28,7 +28,6 @@
     </div>
   </header>
   <main>
-    <h1 class="uwofont">GPA Calculator</h1>
     <div id="calculator">
       <table id="prior_classes">
         <tr>
@@ -46,8 +45,9 @@
           <td>Class:</td>
           <td>Credits:</td>
           <td>Grade:</td>
+          <td>Points:</td>
           <td>Repeat Course:</td>
-          <td>Previous: </td>
+          <td>Previous:</td>
         </tr>
         <tr class="ClassRow">
           <td>
@@ -84,6 +84,9 @@
             </select>
           </td>
           <td>
+            12.0
+          </td>
+          <td>
             <input type="checkbox" name="item1" id="item1">
           </td>
           <td class="remove-check">
@@ -116,6 +119,7 @@
           </td>
           <td id="CreditSum">0 Credits</td>
           <td id="SemesterGPA">GPA: 0.0</td>
+          <td id="PointsSum">Points: 12.0</td>
           <td>
             <!-- Left intentionally blank -->
           </td>
@@ -124,11 +128,6 @@
       </table>
       <p id="totals">GPA with prior attempted credits and GPA: <em id="CombinedGPA">0.00</em></p>
     </div>
-    
   </main>
-  <footer>
-    This site is under development by UW-Oshkosh students as a prototype for UW-Oshkosh. Nothing on the site should be construed in any way as being connected
-with or representative of UW-Oshkosh   
-  </footer>
 </body>
 </html>

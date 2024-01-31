@@ -176,5 +176,6 @@ class SingleClass {
     this.retaken = retaken;
     this.previousGrade = previousGrade;
   }
+
 }
 calculateGPA()
